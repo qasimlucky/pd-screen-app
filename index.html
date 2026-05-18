@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tremer — Record. Analyze. Understand. Improve.</title>
+<style>
+  :root{
+    --bradykinesia:#0B9AA4;
+    --tremor:#7C3AED;
+    --facial:#D97706;
+    --speech:#2563EB;
+    --ink:#0F172A;
+    --muted:#64748B;
+    --bg:#F8FAFC;
+    --card:#FFFFFF;
+    --border:#E2E8F0;
+    --accent:#2563EB;
+    --soft:#EFF3F8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(135deg,#EEF2FF 0%,#F0FDFA 50%,#FAF5FF 100%);
+    padding:72px 0 56px;
+    border-bottom:1px solid var(--border);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center}
+  .brand{display:inline-flex;align-items:center;gap:10px;padding:6px 14px;background:#fff;border:1px solid var(--border);border-radius:999px;font-weight:600;font-size:14px;color:var(--ink)}
+  .brand-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--bradykinesia),var(--tremor))}
+  h1{font-size:48px;line-height:1.08;margin:18px 0 14px;font-weight:800;letter-spacing:-0.02em}
+  h1 .gradient{background:linear-gradient(135deg,var(--tremor),var(--speech));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:18px;color:var(--muted);max-width:560px}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+  .pill{padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;border:1px solid var(--border);background:#fff}
+  .pill.b{color:var(--bradykinesia);border-color:#B6E4E8}
+  .pill.t{color:var(--tremor);border-color:#DDD0FB}
+  .pill.f{color:var(--facial);border-color:#FBE2C0}
+  .pill.s{color:var(--speech);border-color:#C9D8FB}
+
+  /* Phone frame for screenshots */
+  .phone-img{
+    max-width:280px;
+    width:100%;
+    border-radius:34px;
+    box-shadow:0 28px 60px -28px rgba(15,23,42,.45), 0 6px 18px -6px rgba(15,23,42,.15);
+    display:block;
+  }
+  .phone-img.lg{max-width:340px}
+
+  /* Sections */
+  section{padding:80px 0}
+  .eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent)}
+  h2{font-size:34px;line-height:1.15;margin:8px 0 14px;font-weight:800;letter-spacing:-0.01em}
+  h3{font-size:18px;margin:0 0 6px;font-weight:700}
+  .section-sub{color:var(--muted);max-width:760px;margin-bottom:36px;font-size:16px}
+
+  /* How it works */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .step{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px}
+  .step-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;font-weight:800;font-size:14px;color:#fff;margin-bottom:14px}
+  .s1 .step-num{background:var(--bradykinesia)}
+  .s2 .step-num{background:var(--tremor)}
+  .s3 .step-num{background:var(--facial)}
+  .s4 .step-num{background:var(--speech)}
+  .step p{color:var(--muted);font-size:14px;margin:6px 0 0}
+
+  /* Use cases */
+  .usecases{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .usecase{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;gap:16px;align-items:flex-start}
+  .uc-badge{flex-shrink:0;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;font-weight:800}
+  .uc-body h3{margin-bottom:4px}
+  .uc-body p{color:var(--muted);font-size:14px;margin:0}
+
+  /* Impact split */
+  .impact{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  .impact-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px}
+  .impact-card h3{font-size:22px;margin-bottom:14px}
+  .impact-card ul{margin:0;padding:0;list-style:none}
+  .impact-card li{padding:14px 0;border-top:1px solid var(--border);display:flex;gap:12px;align-items:flex-start}
+  .impact-card li:first-of-type{border-top:none;padding-top:6px}
+  .impact-card .tick{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;margin-top:2px;font-weight:800}
+  .impact-card .li-title{font-weight:700;display:block;margin-bottom:2px}
+  .impact-card .li-desc{color:var(--muted);font-size:14px}
+
+  /* Feature cards */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .feature{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;transition:transform .2s ease,box-shadow .2s ease}
+  .feature:hover{transform:translateY(-3px);box-shadow:0 12px 32px -16px rgba(15,23,42,.18)}
+  .ficon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:#fff;font-weight:800;font-size:20px}
+  .feature p{color:var(--muted);font-size:14px;margin:6px 0 0}
+
+  /* Screen showcase — alternating */
+  .show-row{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:72px}
+  .show-row:nth-child(even){direction:rtl}
+  .show-row:nth-child(even) > *{direction:ltr}
+  .show-row:last-child{margin-bottom:0}
+  .show-text .eyebrow{display:inline-block;padding:4px 12px;border-radius:999px;background:#fff;border:1px solid var(--border)}
+  .show-text h3{font-size:26px;margin:14px 0 12px;font-weight:800;letter-spacing:-0.01em}
+  .show-text p{color:var(--muted);font-size:16px;margin:0 0 16px}
+  .show-text ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px}
+  .show-text li{margin-bottom:6px}
+  .show-img{display:flex;justify-content:center}
+
+  /* Categories table */
+  .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
+  .cat{border:1px solid var(--border);border-radius:14px;padding:20px;background:#fff}
+  .cat-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .cat-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+  .cat h3{font-size:16px}
+  .cat p{color:var(--muted);font-size:13px;margin:4px 0 0}
+  .cat .tasks{margin-top:12px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;display:inline-block}
+  .b-bg{background:var(--bradykinesia)} .t-bg{background:var(--tremor)} .f-bg{background:var(--facial)} .s-bg{background:var(--speech)}
+  .b-soft{background:#E6F6F7;color:var(--bradykinesia)}
+  .t-soft{background:#F1EAFE;color:var(--tremor)}
+  .f-soft{background:#FDEFD6;color:var(--facial)}
+  .s-soft{background:#E3ECFC;color:var(--speech)}
+
+  /* Tech / closing */
+  .tech{background:#0F172A;color:#fff;border-radius:24px;padding:56px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .tech h2{color:#fff}
+  .tech .section-sub{color:#94A3B8}
+  .tech-list{display:grid;gap:18px}
+  .tech-row{display:flex;gap:14px;align-items:flex-start}
+  .tech-bullet{width:10px;height:10px;border-radius:50%;margin-top:8px;flex-shrink:0}
+  .tech-row h4{margin:0 0 4px;font-size:16px}
+  .tech-row p{margin:0;color:#94A3B8;font-size:14px}
+
+  /* CTA */
+  .cta{text-align:center;padding:64px 32px;background:linear-gradient(135deg,#F0FDFA,#EEF2FF);border-radius:24px;margin:24px 0}
+  .cta h2{font-size:32px;margin-bottom:10px}
+  .cta p{color:var(--muted);font-size:17px;max-width:600px;margin:0 auto}
+
+  footer{padding:32px 0 48px;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid var(--border)}
+
+  @media (max-width: 920px){
+    .hero-grid,.impact,.show-row{grid-template-columns:1fr;gap:32px}
+    .show-row:nth-child(even){direction:ltr}
+    h1{font-size:36px}
+    .steps,.features,.cats{grid-template-columns:1fr 1fr}
+    .usecases{grid-template-columns:1fr}
+    .tech{grid-template-columns:1fr;padding:36px}
+  }
+  @media (max-width: 560px){
+    .steps,.features,.cats{grid-template-columns:1fr}
+    section{padding:56px 0}
+    h1{font-size:30px}
+  }
+
+  /* ============== PRINT / PDF STYLES ============== */
+  @page {
+    size: A4;
+    margin: 12mm 12mm 14mm 12mm;
+  }
+  @media print {
+    *, *::before, *::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    html, body { background:#fff !important; font-size:11pt; line-height:1.5; }
+    .wrap { padding:0; max-width:100%; }
+
+    /* Tighter vertical rhythm in print */
+    section { padding:18pt 0 !important; page-break-inside:auto; }
+    .hero { padding:18pt 0 !important; }
+    h1 { font-size:26pt !important; line-height:1.1; margin:8pt 0 6pt; }
+    h2 { font-size:18pt !important; margin:4pt 0 6pt; page-break-after:avoid; }
+    h3 { font-size:12pt !important; }
+    .section-sub, .lead { font-size:10.5pt !important; margin-bottom:10pt; }
+    .eyebrow { font-size:8.5pt !important; }
+
+    /* Hero side-by-side stays */
+    .hero-grid { grid-template-columns: 1.2fr 0.8fr; gap:18pt; }
+    .phone-img { max-width:170pt !important; }
+    .phone-img.lg { max-width:200pt !important; box-shadow:none !important; }
+
+    /* Never split a logical block across pages */
+    .step, .feature, .usecase, .cat, .impact-card,
+    .show-row, .tech, .cta { page-break-inside: avoid; break-inside: avoid; }
+
+    /* Headings should keep with their following content */
+    h2, h3, .eyebrow { break-after: avoid; page-break-after: avoid; }
+
+    /* Push the big sections onto a fresh page so they don't get orphaned */
+    .usecases, .impact, .features, .show-row, .tech, .cta {
+      page-break-before: auto;
+    }
+    .show-row { margin-bottom: 18pt; }
+
+    /* Multi-column grids — tighten the gap and keep at full width */
+    .steps { grid-template-columns: repeat(4, 1fr); gap:10pt; }
+    .features { grid-template-columns: repeat(3, 1fr); gap:10pt; }
+    .usecases { grid-template-columns: 1fr 1fr; gap:10pt; }
+    .cats { grid-template-columns: repeat(4, 1fr); gap:10pt; }
+    .impact { grid-template-columns: 1fr 1fr; gap:14pt; }
+
+    .step, .feature, .usecase, .cat { padding:12pt !important; }
+    .impact-card { padding:18pt !important; }
+    .impact-card li { padding:8pt 0; }
+
+    /* Showcase rows: keep image and text together, smaller image */
+    .show-row { grid-template-columns: 0.55fr 0.45fr; gap:18pt; align-items:flex-start; }
+    .show-row:nth-child(even) { direction:ltr; }
+    .show-row:nth-child(even) > * { direction:ltr; }
+    .show-img .phone-img { max-width:170pt !important; }
+    .show-text h3 { font-size:14pt !important; margin:6pt 0 6pt; }
+    .show-text p, .show-text ul { font-size:10pt !important; }
+    .show-text ul { padding-left:14pt; }
+
+    /* Tech / CTA: keep dark background visible */
+    .tech { background:#0F172A !important; color:#fff !important; padding:20pt !important; gap:20pt; border-radius:12pt; }
+    .tech h2, .tech h4 { color:#fff !important; }
+    .tech .section-sub, .tech .tech-row p { color:#CBD5E1 !important; }
+    .cta { padding:24pt 18pt !important; }
+
+    /* Pills, soft-bg chips, etc. force backgrounds */
+    .pill, .tasks, .b-soft, .t-soft, .f-soft, .s-soft,
+    .b-bg, .t-bg, .f-bg, .s-bg, .ficon, .uc-badge,
+    .step-num, .tick, .cat-ico, .brand-dot {
+      print-color-adjust: exact !important;
+      -webkit-print-color-adjust: exact !important;
+    }
+
+    /* Phone images — drop the heavy shadow to keep edges clean in PDF */
+    .phone-img { box-shadow: 0 4pt 10pt -4pt rgba(0,0,0,.25) !important; }
+
+    /* Don't let footer float oddly */
+    footer { padding:10pt 0 0 !important; border-top:1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="brand"><span class="brand-dot"></span> Tremer · Health Recording App</span>
+      <h1>Record. Analyze.<br/><span class="gradient">Understand. Improve.</span></h1>
+      <p class="lead">Tremer helps people living with Parkinson's Disease track tremor, movement, facial expressions and speech — using a smartphone camera and AI to turn everyday recordings into clinical-grade insight.</p>
+      <div class="pills">
+        <span class="pill b">Bradykinesia</span>
+        <span class="pill t">Tremor</span>
+        <span class="pill f">Facial Expression</span>
+        <span class="pill s">Speech</span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center">
+      <img class="phone-img lg" src="screenshots/01-home.png.jpeg" alt="Tremer home dashboard"/>
+    </div>
+  </div>
+</header>
+
+<!-- WHAT IS TREMER (Overview / Importance) -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">What is Tremer?</span>
+    <h2>A pocket-sized motion lab for people with Parkinson's Disease</h2>
+    <p class="section-sub">
+      Parkinson's Disease (PD) is a progressive neurological condition that gradually changes the way a person moves,
+      speaks and expresses themselves. Today, those changes are usually measured only during short clinic visits — a
+      tiny window into a 24-hour life. Tremer closes that gap. By turning any smartphone into a clinically useful
+      recording tool, Tremer lets patients capture how they actually feel and move at home, every day. A computer-vision
+      library identifies the user's motion, and an AI model converts the recording into structured, comparable results
+      that both patients and clinicians can act on.
+    </p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="wrap">
+    <span class="eyebrow">How it works</span>
+    <h2>From a short recording to a clinical insight</h2>
+    <p class="section-sub">Four simple steps. The patient records — the AI does the rest.</p>
+
+    <div class="steps">
+      <div class="step s1">
+        <div class="step-num">1</div>
+        <h3>Choose categories</h3>
+        <p>Pick one or more assessment types — Bradykinesia, Tremor, Facial Expression, or Speech — and tasks are combined into a single session.</p>
+      </div>
+      <div class="step s2">
+        <div class="step-num">2</div>
+        <h3>Pre-session check-in</h3>
+        <p>Optionally log medication, wellbeing, intake and symptoms so results can be interpreted in context.</p>
+      </div>
+      <div class="step s3">
+        <div class="step-num">3</div>
+        <h3>Record on camera</h3>
+        <p>Patients perform guided tasks on screen. The device camera captures motion, expression, and audio.</p>
+      </div>
+      <div class="step s4">
+        <div class="step-num">4</div>
+        <h3>AI analyzes</h3>
+        <p>A computer-vision library identifies the user's motion, and an AI model turns it into structured clinical results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Use cases</span>
+    <h2>Where Tremer fits into real life</h2>
+    <p class="section-sub">Tremer is built around the moments that matter most in a person's PD journey — at home, in the clinic, and in between.</p>
+
+    <div class="usecases">
+      <div class="usecase">
+        <div class="uc-badge" style="background:var(--bradykinesia)">🏠</div>
+        <div class="uc-body">
+          <h3>Daily at-home monitoring</h3>
+          <p>The patient records a short session from the comfort of their living room. No clinic visit, no equipment — just the phone they already carry.</p>
+        </div>
+      </div>
+      <div class="usecase">
+        <div class="uc-badge" style="background:var(--tremor)">💊</div>
+        <div class="uc-body">
+          <h3>Medication response tracking</h3>
+          <p>Record sessions while ON, OFF or wearing off medication. Patients and doctors can see exactly how dosing changes affect symptoms over the day.</p>
+        </div>
+      </div>
+      <div class="usecase">
+        <div class="uc-badge" style="background:var(--facial)">📅</div>
+        <div class="uc-body">
+          <h3>Pre-appointment preparation</h3>
+          <p>Arrive at every appointment with weeks of objective data already collected — so the conversation focuses on treatment, not recollection.</p>
+        </div>
+      </div>
+      <div class="usecase">
+        <div class="uc-badge" style="background:var(--speech)">📈</div>
+        <div class="uc-body">
+          <h3>Long-term progression tracking</h3>
+          <p>Each session contributes to a long-term trend line, helping detect subtle worsening that a single clinic visit can easily miss.</p>
+        </div>
+      </div>
+      <div class="usecase">
+        <div class="uc-badge" style="background:var(--bradykinesia)">🩺</div>
+        <div class="uc-body">
+          <h3>Remote consultations &amp; telemedicine</h3>
+          <p>Specialists can review real, time-stamped recordings before or during a tele-consult — no waiting for the patient to "show" a tremor on a video call.</p>
+        </div>
+      </div>
+      <div class="usecase">
+        <div class="uc-badge" style="background:var(--tremor)">👨‍👩‍👧</div>
+        <div class="uc-body">
+          <h3>Caregiver &amp; family visibility</h3>
+          <p>Caregivers gain a clearer picture of how their loved one is really doing on any given day — beyond a worried phone call.</p>
+        </div>
+      </div>
+      <div class="usecase">
+        <div class="uc-badge" style="background:var(--facial)">🧪</div>
+        <div class="uc-body">
+          <h3>Clinical research data</h3>
+          <p>Aggregated, structured recordings can power studies on treatment efficacy, disease progression and digital biomarkers.</p>
+        </div>
+      </div>
+      <div class="usecase">
+        <div class="uc-badge" style="background:var(--speech)">⚠️</div>
+        <div class="uc-body">
+          <h3>Early-warning &amp; flagged findings</h3>
+          <p>Clinicians can flag concerning sessions directly into the patient's feed, enabling earlier follow-up rather than waiting for the next visit.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPORTANCE: Healthcare + Patient -->
+<section style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="wrap">
+    <span class="eyebrow">Why it matters</span>
+    <h2>The impact of Tremer in healthcare and in daily life</h2>
+    <p class="section-sub">Parkinson's care has historically depended on short, subjective in-clinic exams. Tremer brings continuous, objective data into the picture — benefiting both the healthcare system and the people it serves.</p>
+
+    <div class="impact">
+      <div class="impact-card">
+        <h3 style="color:var(--tremor)">🏥 In the health sector</h3>
+        <ul>
+          <li><span class="tick" style="background:var(--tremor)">✓</span><div><span class="li-title">Objective, measurable data</span><span class="li-desc">Replaces subjective bedside scoring with consistent, AI-driven measurements that don't vary between clinicians.</span></div></li>
+          <li><span class="tick" style="background:var(--tremor)">✓</span><div><span class="li-title">Reduces clinical workload</span><span class="li-desc">Fewer in-person assessments are needed for routine tracking, freeing specialist time for the patients who need it most.</span></div></li>
+          <li><span class="tick" style="background:var(--tremor)">✓</span><div><span class="li-title">Enables true telemedicine</span><span class="li-desc">Doctors can review structured recordings before or after a video call instead of relying on a 5-minute camera demo.</span></div></li>
+          <li><span class="tick" style="background:var(--tremor)">✓</span><div><span class="li-title">Faster, better treatment decisions</span><span class="li-desc">Trends across weeks of data make it easier to fine-tune medication doses and timing.</span></div></li>
+          <li><span class="tick" style="background:var(--tremor)">✓</span><div><span class="li-title">Accelerates research</span><span class="li-desc">Structured digital biomarkers from real-world patients give researchers data that was historically expensive and slow to collect.</span></div></li>
+          <li><span class="tick" style="background:var(--tremor)">✓</span><div><span class="li-title">Lower cost of care</span><span class="li-desc">Fewer hospital trips, fewer missed follow-ups, and earlier intervention all reduce long-term healthcare cost.</span></div></li>
+        </ul>
+      </div>
+
+      <div class="impact-card">
+        <h3 style="color:var(--bradykinesia)">❤️ In patient life</h3>
+        <ul>
+          <li><span class="tick" style="background:var(--bradykinesia)">✓</span><div><span class="li-title">Empowerment &amp; awareness</span><span class="li-desc">Patients see their own condition clearly — not as a vague feeling but as a measured, comparable score.</span></div></li>
+          <li><span class="tick" style="background:var(--bradykinesia)">✓</span><div><span class="li-title">Comfort of recording at home</span><span class="li-desc">No travel, no waiting rooms, no clinical anxiety — assessments happen on the patient's own terms.</span></div></li>
+          <li><span class="tick" style="background:var(--bradykinesia)">✓</span><div><span class="li-title">Better medication understanding</span><span class="li-desc">Patients can see how their tremor or slowness changes between doses, which builds trust in their treatment plan.</span></div></li>
+          <li><span class="tick" style="background:var(--bradykinesia)">✓</span><div><span class="li-title">Peace of mind</span><span class="li-desc">Knowing that a clinician will see the recording — and flag anything urgent — reduces anxiety between appointments.</span></div></li>
+          <li><span class="tick" style="background:var(--bradykinesia)">✓</span><div><span class="li-title">Independence &amp; dignity</span><span class="li-desc">Patients stay in control of their own health journey rather than depending entirely on appointment slots.</span></div></li>
+          <li><span class="tick" style="background:var(--bradykinesia)">✓</span><div><span class="li-title">Family &amp; caregiver involvement</span><span class="li-desc">Loved ones can be part of the journey with shared, trustworthy data — not guesswork.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ASSESSMENT CATEGORIES -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Assessment Categories</span>
+    <h2>Four clinically grounded tracks</h2>
+    <p class="section-sub">Each category groups together a set of guided tasks. Tasks from selected categories are merged into one continuous, seamless session.</p>
+
+    <div class="cats">
+      <div class="cat">
+        <div class="cat-head">
+          <div class="cat-ico b-bg">✋</div>
+          <h3>Bradykinesia</h3>
+        </div>
+        <p>Measures slowness and reduced amplitude of movement through finger-tapping and hand-motion tasks — a core symptom of PD.</p>
+        <span class="tasks b-soft">6 tasks</span>
+      </div>
+      <div class="cat">
+        <div class="cat-head">
+          <div class="cat-ico t-bg">📈</div>
+          <h3>Tremor</h3>
+        </div>
+        <p>Captures resting, postural and action tremor using camera-based motion tracking, with no wearables required.</p>
+        <span class="tasks t-soft">6 tasks</span>
+      </div>
+      <div class="cat">
+        <div class="cat-head">
+          <div class="cat-ico f-bg">🙂</div>
+          <h3>Facial Expression</h3>
+        </div>
+        <p>Detects hypomimia — the reduced facial movement common in PD — through guided expression prompts and face-landmark analysis.</p>
+        <span class="tasks f-soft">2 tasks</span>
+      </div>
+      <div class="cat">
+        <div class="cat-head">
+          <div class="cat-ico s-bg">🎙</div>
+          <h3>Speech</h3>
+        </div>
+        <p>Records and analyses speech samples for volume, clarity, rhythm and articulation — early indicators of PD progression.</p>
+        <span class="tasks s-soft">1 task</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE FEATURES -->
+<section style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="wrap">
+    <span class="eyebrow">Core features</span>
+    <h2>Designed for daily, at-home use</h2>
+    <p class="section-sub">Every feature in Tremer is built around one goal: making it effortless for patients to record, and meaningful for clinicians to review.</p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="ficon" style="background:var(--bradykinesia)">📊</div>
+        <h3>Personalised dashboard</h3>
+        <p>At a glance: condition status, total sessions logged, alerts that need attention, and reminders to record today. The patient always knows where they stand.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--tremor)">🧩</div>
+        <h3>Multi-category sessions</h3>
+        <p>Select one or several categories at once. All tasks are combined into a single guided flow — no repeat setups, no fragmented data.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--facial)">💊</div>
+        <h3>Pre-session check-in</h3>
+        <p>Optional logs for medication state (ON / OFF / wearing off), wellbeing, intake and symptoms enrich every result with vital context.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--speech)">🎥</div>
+        <h3>Guided recording</h3>
+        <p>Live camera preview with on-screen guidance — "keep your right hand visible and tap your index finger" — ensures clean, analysable captures every time.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--tremor)">🤖</div>
+        <h3>AI-powered analysis</h3>
+        <p>A computer-vision library identifies hand, face and audio landmarks in real time. An AI model then scores key clinical metrics for the chosen category.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--bradykinesia)">📁</div>
+        <h3>Session history &amp; filters</h3>
+        <p>Browse dozens of sessions with filters by category and date. Resume in-progress sessions or revisit finished ones anytime.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--facial)">🔔</div>
+        <h3>Clinician alerts</h3>
+        <p>Doctors can flag concerning findings directly into the patient's activity feed, enabling faster follow-up and earlier intervention.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--speech)">📈</div>
+        <h3>Health scores over time</h3>
+        <p>Each session contributes to a swipeable health-score view, so progress and trends — both improvements and regressions — show clearly.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--bradykinesia)">🌍</div>
+        <h3>Multi-language support</h3>
+        <p>Full English &amp; Arabic interface with one-tap switching, making the app accessible to a broader patient base.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--tremor)">📦</div>
+        <h3>Subscription plans</h3>
+        <p>Patients receive a transparent monthly session quota with an in-app upgrade path when more capacity is needed.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--facial)">☁️</div>
+        <h3>Secure cloud sync</h3>
+        <p>Sessions, videos and results are stored server-side — patients and clinicians always see the latest data on any device.</p>
+      </div>
+      <div class="feature">
+        <div class="ficon" style="background:var(--speech)">📹</div>
+        <h3>Video evidence</h3>
+        <p>Every assessment saves the original video. Clinicians can replay, second-opinion or re-analyse any session at any time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN SHOWCASE — real screenshots, alternating layout -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Inside the app</span>
+    <h2>A walk through every key screen</h2>
+    <p class="section-sub">Real screens, captured from the live app.</p>
+
+    <!-- 1. Home -->
+    <div class="show-row">
+      <div class="show-text">
+        <span class="eyebrow">Screen 01 · Home dashboard</span>
+        <h3>Your health, summarised in one view</h3>
+        <p>The home screen is the patient's daily anchor. It opens with the Tremer hero, then surfaces the most important information in four glanceable cards: current condition, total sessions logged, open alerts, and the daily record reminder.</p>
+        <ul>
+          <li>Recent activity feed shows the last few completed sessions, doctor flags and results.</li>
+          <li>"Your Health Scores" card lets the patient swipe through their key metrics.</li>
+          <li>Persistent bottom navigation makes Home, Health, Action (record), My Sessions and Profile one tap away.</li>
+        </ul>
+      </div>
+      <div class="show-img"><img class="phone-img" src="screenshots/01-home.png.jpeg" alt="Home dashboard screen"/></div>
+    </div>
+
+    <!-- 2. Categories -->
+    <div class="show-row">
+      <div class="show-text">
+        <span class="eyebrow">Screen 02 · Choose categories</span>
+        <h3>Pick what to assess — then go</h3>
+        <p>From a single screen the patient can choose any combination of Bradykinesia, Tremor, Facial Expression and Speech. Tasks across selected categories are merged into one continuous session, removing repetitive setup.</p>
+        <ul>
+          <li>Each category card shows its colour code, icon and task count.</li>
+          <li>Plan usage is always visible ("3 / 3 sessions used") with a clear upgrade path.</li>
+          <li>Previous sessions live just below — filter by Start, Resume, Finished or Cancelled.</li>
+        </ul>
+      </div>
+      <div class="show-img"><img class="phone-img" src="screenshots/02-categories.jpeg" alt="Choose session categories screen"/></div>
+    </div>
+
+    <!-- 3. Recording -->
+    <div class="show-row">
+      <div class="show-text">
+        <span class="eyebrow">Screen 03 · Recording session</span>
+        <h3>Guided, step-by-step recording</h3>
+        <p>The recording screen brings everything the patient needs into one calm view: selected categories at the top, a progress and timer card, the full step list, and a live camera preview with the current task guidance.</p>
+        <ul>
+          <li>Progress (steps completed and percentage) and a count-down timer are always visible.</li>
+          <li>Each category expands to show its individual steps — no guesswork about what comes next.</li>
+          <li>The camera preview shows real-time tracking with on-screen instructions like "Keep your right hand visible and tap your index finger."</li>
+        </ul>
+      </div>
+      <div class="show-img"><img class="phone-img" src="screenshots/03-recording.png.jpeg" alt="Recording session screen with camera preview"/></div>
+    </div>
+
+    <!-- 4. My Sessions -->
+    <div class="show-row">
+      <div class="show-text">
+        <span class="eyebrow">Screen 04 · My Sessions</span>
+        <h3>Every recording, neatly organised</h3>
+        <p>The My Sessions screen turns every past assessment into a browsable, filterable history. Patients can resume in-progress sessions, revisit completed ones, or quickly find a specific date.</p>
+        <ul>
+          <li>Each row shows the categories captured, the date, progress and current status (Not Started, In Progress, Finished, Cancelled).</li>
+          <li>"Videos saved" badges confirm that the underlying evidence is preserved.</li>
+          <li>The top counter (e.g. "63 sessions found") reflects the active filters in real time.</li>
+        </ul>
+      </div>
+      <div class="show-img"><img class="phone-img" src="screenshots/04-sessions.png.jpeg" alt="My Sessions list screen"/></div>
+    </div>
+
+    <!-- 5. Filters -->
+    <div class="show-row">
+      <div class="show-text">
+        <span class="eyebrow">Screen 05 · Filters</span>
+        <h3>Find exactly the session you need</h3>
+        <p>The filters sheet slides up over the sessions list and lets the patient narrow results in two simple steps: choose categories, then choose a time range. Results update instantly.</p>
+        <ul>
+          <li>Pick any combination of Bradykinesia, Tremor, Facial Expression and Speech.</li>
+          <li>Quick-pick ranges — Today, Last 7 days, Last 30 days — or a custom date range.</li>
+          <li>"Show 63 sessions" gives the patient confidence in the result before applying.</li>
+        </ul>
+      </div>
+      <div class="show-img"><img class="phone-img" src="screenshots/05-filters.jpeg" alt="Filters bottom sheet screen"/></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TECHNOLOGY -->
+<section>
+  <div class="wrap">
+    <div class="tech">
+      <div>
+        <span class="eyebrow" style="color:#A5B4FC">Under the hood</span>
+        <h2>Computer vision meets clinical AI</h2>
+        <p class="section-sub">A smartphone is all the patient needs. Behind the scenes, a motion-tracking library and a purpose-built AI model do the heavy lifting.</p>
+      </div>
+      <div class="tech-list">
+        <div class="tech-row">
+          <div class="tech-bullet" style="background:var(--bradykinesia)"></div>
+          <div>
+            <h4>Cross-platform mobile app</h4>
+            <p>Runs on both iOS and Android — every patient can take part using the device they already own.</p>
+          </div>
+        </div>
+        <div class="tech-row">
+          <div class="tech-bullet" style="background:var(--tremor)"></div>
+          <div>
+            <h4>On-device motion library</h4>
+            <p>A computer-vision library identifies hands, face landmarks and audio cues in real time during the recording.</p>
+          </div>
+        </div>
+        <div class="tech-row">
+          <div class="tech-bullet" style="background:var(--facial)"></div>
+          <div>
+            <h4>AI scoring model</h4>
+            <p>Each recording is passed to an AI model that scores key clinical metrics for the chosen category.</p>
+          </div>
+        </div>
+        <div class="tech-row">
+          <div class="tech-bullet" style="background:var(--speech)"></div>
+          <div>
+            <h4>Secure cloud storage</h4>
+            <p>Sessions, videos and results are stored server-side, so patients and clinicians always see the latest data on any device.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="cta">
+      <h2>Better data. Better days.</h2>
+      <p>Tremer turns one of the most challenging diseases to track into something measurable, shareable and actionable — for patients, families and clinicians.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Tremer · Health Recording App · Record. Analyze. Understand. Improve.</div>
+</footer>
+
+</body>
+</html>
